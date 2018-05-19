@@ -1,13 +1,12 @@
 const fs = require('fs');
 const LineByLineReader = require('line-by-line');
 
-const mdFileTemp = '/home/vassar/Downloads/CSV/New CSVs/Grid_IS_1_with_0.05_latlong_ele.csv';
-const mdFileRF = '/home/vassar/Downloads/CSV/New CSVs/Grid_IS_0.25_with_0.05_latlong_0.05ele.csv';
-// const bdFilesRFDir = '/home/vassar/Documents/Docs/Geoportal/Grid Interpolation/RF-Daily/';
-const bdFilesRFDir = '/home/vassar/Documents/Docs/Geoportal/Grid Interpolation/RF-Daily(copy)/';     
-const bdFilesTempDir = '/home/vassar/Documents/Docs/Geoportal/Grid Interpolation/TEMP-Daily(copy)/';
-// const bdFilesTempDir = '/home/vassar/Documents/Docs/Geoportal/Grid Interpolation/TEMP-Daily/';
-const outputFilesDir = '/home/vassar/Documents/Docs/Geoportal/Grid Interpolation/Data Files/';
+// First Extract the zip files in the same folder
+const mdFileTemp = 'CSV/Grid_IS_1_with_0.05_latlong_ele.csv';
+const mdFileRF = 'CSV/Grid_IS_0.25_with_0.05_latlong_0.05ele.csv';
+const bdFilesRFDir = 'Business Data/RF-Daily/';     
+const bdFilesTempDir = 'Business Data/TEMP-Daily/';
+const outputFilesDir = 'Outout Files/';
 
 /* 
     tempMD = {
@@ -64,6 +63,9 @@ async function getBD(path, files, logic) {
 }
 
 async function readData() {
+    if (!fs.existsSync(outputFilesDir)){
+        fs.mkdirSync(outputFilesDir);
+    }
     await promisifyLineByLineReader(new LineByLineReader(mdFileTemp), line => {
         let cell = line.trim().split(",");
         if(!parseFloat(cell[0])) return;
